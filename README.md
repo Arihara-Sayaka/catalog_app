@@ -1,1 +1,1 @@
-# Running App
+# catalog_app App
