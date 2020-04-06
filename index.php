@@ -23,6 +23,7 @@ $trimmings = $stmt->fetchAll(PDO::FETCH_ASSOC);
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="style.css">
   <title>記事投稿フォーム</title>
 </head>
 
@@ -34,7 +35,7 @@ $trimmings = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <ul class="trimmings-list">
       <?php foreach ($trimmings as $trimming) : ?>
         <li>
-          <?php echo h($trimming['title']); ?><br>
+          <a href="show.php?id=<?php echo h($trimming['id']) ?>"><?php echo h($trimming['title']); ?></a><br>
           <img src="../dog_picture/<?php echo h($trimming['picture']); ?>" alt="犬の写真"><br>
           <?php echo h($trimming['body']); ?><br>
           投稿日時: <?php echo h($trimming['created_at']); ?>
