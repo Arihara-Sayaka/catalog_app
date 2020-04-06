@@ -7,7 +7,19 @@ $id = $_GET['id'];
 
 $dbh = connectDb();
 
-$sql = 'SELECT * FROM trimmings WHERE id = :id ';
+$sql = <<<SQL
+SELECT
+  t.*,
+  d.name
+FROM
+  trimmings t
+LEFT JOIN
+  dogbreed d
+ON
+  t.dogbreed_id = d.id
+WHERE
+  t.id = :id
+SQL;
 
 $stmt = $dbh->prepare($sql);
 $stmt->bindParam(':id', $id, PDO::PARAM_INT);
@@ -30,11 +42,13 @@ $trimming = $stmt->fetch(PDO::FETCH_ASSOC);
 
 <body>
   <h1><?php echo h($trimming['title']); ?></h1>
+  <p><h2><?php echo h($trimming['name']); ?></h2></p>
+
   <ul class="trimmings-list">
     <li>
       <img src="../dog_picture/<?php echo h($trimming['picture']); ?>" alt="犬の写真"><br>
       <?php echo h($trimming['body']); ?><br>
-      投稿日時: <?php echo h($trimming['created_at']); ?><br>
+      投稿日時 : <?php echo h($trimming['created_at']); ?><br>
       <a href="index.php">戻る</a>
       <hr>
     </li>
