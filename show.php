@@ -42,7 +42,9 @@ $trimming = $stmt->fetch(PDO::FETCH_ASSOC);
 
 <body>
   <h1><?php echo h($trimming['title']); ?></h1>
-  <p><h2><?php echo h($trimming['name']); ?></h2></p>
+  <p>
+    <h2><?php echo h($trimming['name']); ?></h2>
+  </p>
 
   <ul class="trimmings-list">
     <li>
@@ -50,6 +52,7 @@ $trimming = $stmt->fetch(PDO::FETCH_ASSOC);
       <?php echo h($trimming['body']); ?><br>
       投稿日時 : <?php echo h($trimming['created_at']); ?><br>
       <a href="index.php">戻る</a>
+        <p><a href="reviews.php">口コミ投稿</a></p>
       <hr>
     </li>
   </ul>

@@ -68,7 +68,9 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
                 <textarea name="body" id="" cols="30" rows="10" class="form-control" required></textarea>
               </div>
               <div class="form-group">
-                <input type="submit" value="登録" class="btn btn-success btn-primary btn-block ">
+                <input type="hidden" name="" value="show.php?id={$id}">
+                <!-- <input type="submit" value="登録" class="btn btn-success btn-primary btn-block "> -->
+                <a href="<?php h($trimming['id']) ?>" class="btn btn-success btn-primary btn-block ">登録</a>
               </div>
             </form>
           </div>
