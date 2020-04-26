@@ -10,9 +10,11 @@ $dbh = connectDb();
 $sql = <<<SQL
 SELECT
   t.*,
+  -- r.*,
   d.name
 FROM
-  trimmings t
+  trimmings t,
+  -- reviews r
 LEFT JOIN
   dogbreed d
 ON
@@ -52,11 +54,25 @@ $trimming = $stmt->fetch(PDO::FETCH_ASSOC);
       <?php echo h($trimming['body']); ?><br>
       投稿日時 : <?php echo h($trimming['created_at']); ?><br>
       <a href="index.php">戻る</a>
-        <p><a href="reviews.php">口コミ投稿</a></p>
+      <p><a href="reviews.php?trimmings_id=<?php echo h($trimming['id']); ?>">口コミ投稿</a></p>
       <hr>
     </li>
   </ul>
-
+  <!-- <h3>口コミ</h3>
+  <?php if (count($reviews)) : ?>
+    <ul>
+      <?php foreach ($reviews as $review) : ?>
+        <li>
+          <?php echo h($review['name']); ?><br>
+          <?php echo h($review['comment']); ?><br>
+          投稿日時: <?php echo h($review['created_at']); ?>
+          <hr>
+        </li>
+      <?php endforeach; ?>
+    </ul>
+  <?php else : ?>
+    <p>投稿された記事はありません</p>
+  <?php endif; ?> -->
 </body>
 
 </html>
