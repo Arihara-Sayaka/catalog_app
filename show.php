@@ -5,16 +5,15 @@ require_once('functions.php');
 
 $id = $_GET['id'];
 
+
 $dbh = connectDb();
 
 $sql = <<<SQL
 SELECT
   t.*,
-  -- r.*,
   d.name
 FROM
   trimmings t,
-  -- reviews r
 LEFT JOIN
   dogbreed d
 ON
@@ -23,11 +22,22 @@ WHERE
   t.id = :id
 SQL;
 
+$sql = <<<SQL
+SELECT
+  r.*,
+FROM
+  reviews r
+ORDER BY
+  updated_at
+DESC
+SQL;
+
 $stmt = $dbh->prepare($sql);
 $stmt->bindParam(':id', $id, PDO::PARAM_INT);
 $stmt->execute();
 
 $trimming = $stmt->fetch(PDO::FETCH_ASSOC);
+$reviews = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
 

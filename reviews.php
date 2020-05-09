@@ -27,10 +27,11 @@ WHERE
 SQL;
 
 $stmt = $dbh->prepare($sql);
-$stmt->bindParam(':id', $_SESSION['id'], PDO::PARAM_INT);
+$stmt->bindParam(':id', $_GET['trimmings_id'], PDO::PARAM_INT);
 $stmt->execute();
 
-$user = $stmt->fetch(PDO::FETCH_ASSOC);
+$users = $stmt->fetch(PDO::FETCH_ASSOC);
+$reviews = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
 <!DOCTYPE html>
