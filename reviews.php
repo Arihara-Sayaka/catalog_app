@@ -27,7 +27,7 @@ WHERE
 SQL;
 
 $stmt = $dbh->prepare($sql);
-$stmt->bindParam(':id', $_POST['trimming_id'], PDO::PARAM_INT);
+$stmt->bindParam(':id', $_GET['trimming_id'], PDO::PARAM_INT);
 $stmt->execute();
 
 $users = $stmt->fetch(PDO::FETCH_ASSOC);
