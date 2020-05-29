@@ -88,6 +88,7 @@ $dogbreed = $stmt->fetchAll(PDO::FETCH_ASSOC);
       <?php endforeach; ?>
     </ul>
   </div>
+<p><a href="index.php">一覧へ戻る</a></p>
 </body>
 
 </html>

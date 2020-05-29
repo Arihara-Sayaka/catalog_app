@@ -8,7 +8,7 @@ $id = $_GET['id'];
 
 $dbh = connectDb();
 
-$sql = <<<SQL
+$sql1 = <<<SQL
 SELECT
   t.*,
   d.name
@@ -22,7 +22,12 @@ WHERE
   t.id = :id
 SQL;
 
-$sql = <<<SQL
+$stmt1 = $dbh->prepare($sql1);
+$trimming = $stmt1->fetch(PDO::FETCH_ASSOC);
+$stmt1->bindParam(':id', $id, PDO::PARAM_INT);
+$stmt1->execute();
+
+$sql2 = <<<SQL
 SELECT
   r.*,
 FROM
@@ -32,12 +37,9 @@ ORDER BY
 DESC
 SQL;
 
-$stmt = $dbh->prepare($sql);
-$stmt->bindParam(':id', $id, PDO::PARAM_INT);
-$stmt->execute();
-
-$trimming = $stmt->fetch(PDO::FETCH_ASSOC);
-$reviews = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$stmt2 = $dbh->prepare($sql2);
+$reviews = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+$stmt2->execute();
 
 ?>
 
@@ -64,11 +66,11 @@ $reviews = $stmt->fetchAll(PDO::FETCH_ASSOC);
       <?php echo h($trimming['body']); ?><br>
       投稿日時 : <?php echo h($trimming['created_at']); ?><br>
       <a href="index.php">戻る</a>
-      <p><a href="reviews.php?trimmings_id=<?php echo h($trimming['id']); ?>">口コミ投稿</a></p>
+      <p><a href="reviews.php?trimming_id=<?php echo h($trimming['id']); ?>">口コミ投稿</a></p>
       <hr>
     </li>
   </ul>
-  <!-- <h3>口コミ</h3>
+  <h3>口コミ</h3>
   <?php if (count($reviews)) : ?>
     <ul>
       <?php foreach ($reviews as $review) : ?>
@@ -82,7 +84,7 @@ $reviews = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </ul>
   <?php else : ?>
     <p>投稿された記事はありません</p>
-  <?php endif; ?> -->
+  <?php endif; ?>
 </body>
 
 </html>

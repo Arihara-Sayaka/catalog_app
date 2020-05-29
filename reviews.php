@@ -21,13 +21,13 @@ FROM
 LEFT JOIN
   trimmings t
 ON
-  r.trimmings_id = t.id
+  r.trimming_id = t.id
 WHERE
   r.id = :id
 SQL;
 
 $stmt = $dbh->prepare($sql);
-$stmt->bindParam(':id', $_GET['trimmings_id'], PDO::PARAM_INT);
+$stmt->bindParam(':id', $_POST['trimming_id'], PDO::PARAM_INT);
 $stmt->execute();
 
 $users = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -69,7 +69,7 @@ $reviews = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <textarea name="body" id="" cols="30" rows="10" class="form-control" required></textarea>
               </div>
               <div class="form-group">
-                <input type="hidden" name="trimmings_id" value="<?php echo $trimmings_id;?>">
+                <input type="hidden" name="trimming_id" value="<?php echo $trimming_id;?>">
                 <!-- <input type="submit" value="登録" class="btn btn-success btn-primary btn-block "> -->
                 <a href="<?php h($trimming['id']) ?>" class="btn btn-success btn-primary btn-block ">登録</a>
               </div>
