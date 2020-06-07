@@ -5,7 +5,6 @@ require_once('functions.php');
 
 $id = $_GET['id'];
 
-
 $dbh = connectDb();
 
 $sql1 = <<<SQL
@@ -13,7 +12,7 @@ SELECT
   t.*,
   d.name
 FROM
-  trimmings t,
+  trimmings t
 LEFT JOIN
   dogbreed d
 ON
@@ -23,9 +22,9 @@ WHERE
 SQL;
 
 $stmt1 = $dbh->prepare($sql1);
-$trimming = $stmt1->fetch(PDO::FETCH_ASSOC);
 $stmt1->bindParam(':id', $id, PDO::PARAM_INT);
 $stmt1->execute();
+$trimming = $stmt1->fetch(PDO::FETCH_ASSOC);
 
 $sql2 = <<<SQL
 SELECT
@@ -40,6 +39,7 @@ SQL;
 $stmt2 = $dbh->prepare($sql2);
 $reviews = $stmt2->fetchAll(PDO::FETCH_ASSOC);
 $stmt2->execute();
+
 
 ?>
 
@@ -73,11 +73,11 @@ $stmt2->execute();
   <h3>口コミ</h3>
   <?php if (count($reviews)) : ?>
     <ul>
-      <?php foreach ($reviews as $review) : ?>
+      <?php foreach ($reviews as $r) : ?>
         <li>
-          <?php echo h($review['name']); ?><br>
-          <?php echo h($review['comment']); ?><br>
-          投稿日時: <?php echo h($review['created_at']); ?>
+          <?php echo h($r['name']); ?><br>
+          <?php echo h($r['comment']); ?><br>
+          投稿日時: <?php echo h($r['created_at']); ?>
           <hr>
         </li>
       <?php endforeach; ?>
