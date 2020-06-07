@@ -3,9 +3,9 @@
 require_once('config.php');
 require_once('functions.php');
 
+$dogbreed_id = $_GET['dogbreed_id'];
 $dbh = connectDb();
 
-$dogbreed_id = $_GET['dogbreed_id'];
 //sql文の実行 
 $sql = <<<SQL
 SELECT
@@ -88,6 +88,7 @@ $dogbreed = $stmt->fetchAll(PDO::FETCH_ASSOC);
       <?php endforeach; ?>
     </ul>
   </div>
+<p><a href="index.php">一覧へ戻る</a></p>
 </body>
 
 </html>
