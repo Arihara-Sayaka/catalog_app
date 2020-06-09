@@ -4,33 +4,31 @@ require_once('config.php');
 require_once('functions.php');
 
 session_start();
-
-if (empty($_SESSION['id'])) {
-  header('Location: login.php');
-  exit;
-}
-
 $dbh = connectDb();
+
+var_dump($user);
 
 $sql = <<<SQL
 SELECT
   r.*,
-  c.name
+  t.title
+  u.name as user_name
 FROM
   reviews r
 LEFT JOIN
   trimmings t
 ON
-  r.trimming_id = t.id
-WHERE
-  r.id = :id
+  r.trimmings_id = t.id
+LEFT JOIN
+  users u
+ON
+  p.user_id = u.id
+ORDER BY
+  r.created_at desc
 SQL;
 
 $stmt = $dbh->prepare($sql);
-$stmt->bindParam(':id', $_GET['trimming_id'], PDO::PARAM_INT);
 $stmt->execute();
-
-$users = $stmt->fetch(PDO::FETCH_ASSOC);
 $reviews = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
