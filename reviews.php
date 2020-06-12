@@ -4,32 +4,34 @@ require_once('config.php');
 require_once('functions.php');
 
 session_start();
-$dbh = connectDb();
 
-var_dump($user);
+$id = $_SESSION['id'];
+if (!is_numeric($id)) {
+  exit;
+}
+
+$dbh = connectDb();
 
 $sql = <<<SQL
 SELECT
   r.*,
-  t.title
-  u.name as user_name
+  u.name
 FROM
   reviews r
 LEFT JOIN
-  trimmings t
-ON
-  r.trimmings_id = t.id
-LEFT JOIN
   users u
 ON
-  p.user_id = u.id
-ORDER BY
-  r.created_at desc
+  r.user_id = u.id
+WHERE
+  r.id = :id
 SQL;
 
 $stmt = $dbh->prepare($sql);
+$stmt->bindParam(':id', $id, PDO::PARAM_INT);
 $stmt->execute();
 $reviews = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 
 ?>
 <!DOCTYPE html>
@@ -46,6 +48,32 @@ $reviews = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </head>
 
 <body>
+
+  <nav>
+    <ul>
+      <a href="http://localhost/index.php">HOME</a>
+    </ul>
+    <div>
+      <ul>
+        <?php if ($_SESSION['id']) : ?>
+          <li class="nav-item">
+            <a href="logout.php">LOG_OUT</a>
+          </li>
+          <li class="nav-item">
+            <a href="reviews.php">COMMENT</a>
+          </li>
+        <?php else : ?>
+          <li class="nav-item">
+            <a href="login.php">LOG_IN</a>
+          </li>
+          <li class="nav-item">
+            <a href="signup.php">SIGN_UP</a>
+          </li>
+        <?php endif; ?>
+      </ul>
+    </div>
+  </nav>
+
   <h1>会員様限定口コミ投稿用ページです</h1>
 
   <h2>Welcome <?php echo h($user['name']); ?> !!</h2>
@@ -56,10 +84,11 @@ $reviews = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <div class="card my-5 bg-light">
           <div class="card-body">
             <h5 class="card-title text-center">新規記事</h5>
-            <form action="new.php" method="post">
+
+            <form action="show.php?trimming_id=<?php echo h($trimming['id']); ?>" method="post">
               <div class="form-group">
-                <label for="title"> Name </label>
-                <input type="text" class="form-control" required autofocus name="name">
+                <label for="name"> Name </label>
+                <input type="name" class="form-control" required autofocus name="name">
               </div>
 
               <div class="form-group">
@@ -67,9 +96,8 @@ $reviews = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <textarea name="body" id="" cols="30" rows="10" class="form-control" required></textarea>
               </div>
               <div class="form-group">
-                <input type="hidden" name="trimming_id" value="<?php echo $trimming_id;?>">
-                <!-- <input type="submit" value="登録" class="btn btn-success btn-primary btn-block "> -->
-                <a href="<?php h($trimming['id']) ?>" class="btn btn-success btn-primary btn-block ">登録</a>
+                <input type="hidden" name="trimming_id" value="<?php echo $trimming_id; ?>">
+                <input type="submit" value="comment" class="btn btn-success btn-primary btn-block">
               </div>
             </form>
           </div>

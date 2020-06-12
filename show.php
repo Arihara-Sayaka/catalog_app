@@ -5,7 +5,10 @@ require_once('functions.php');
 
 $id = $_GET['id'];
 
+session_start();
 $dbh = connectDb();
+
+var_dump($review);
 
 $sql1 = <<<SQL
 SELECT
@@ -32,14 +35,56 @@ SELECT
 FROM
   reviews r
 ORDER BY
-  updated_at
-DESC
+  id
 SQL;
 
 $stmt2 = $dbh->prepare($sql2);
-$reviews = $stmt2->fetchAll(PDO::FETCH_ASSOC);
 $stmt2->execute();
 
+$reviews = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+  $name = $_POST['name'];
+  $body = $_POST['body'];
+  $trimming_id = $_POST['trimming_id'];
+  $user_id = $_SESSION['id'];
+  $errors = [];
+
+  if ($name == '') {
+    $errors[] = 'Nameが未入力です';
+  }
+  if ($body == '') {
+    $errors[] = '本文が未入力です';
+  }
+
+  if (empty($errors)) {
+    $sql = <<<SQL
+    INSERT INTO
+      reviews
+    (
+      name,
+      body,
+      trimming_id,
+      user_id
+    )
+    VALUES
+    (
+      :name,
+      :body,
+      :trimming_id,
+      :user_id
+    )
+    SQL;
+    $stmt = $dbh->prepare($sql);
+    $stmt->bindParam(':name', $name, PDO::PARAM_STR);
+    $stmt->bindParam(':body', $body, PDO::PARAM_STR);
+    $stmt->bindParam(':trimming_id', $trimming_id, PDO::PARAM_INT);
+    $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+    $stmt->execute();
+
+    $id = $dbh->lastInsertId();
+  }
+}
 
 ?>
 
@@ -55,6 +100,7 @@ $stmt2->execute();
 </head>
 
 <body>
+  
   <h1><?php echo h($trimming['title']); ?></h1>
   <p>
     <h2><?php echo h($trimming['name']); ?></h2>
