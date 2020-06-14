@@ -3,12 +3,10 @@
 require_once('config.php');
 require_once('functions.php');
 
-$id = $_GET['id'];
+$id = $_REQUEST['id'];
 
 session_start();
 $dbh = connectDb();
-
-var_dump($review);
 
 $sql1 = <<<SQL
 SELECT
@@ -29,19 +27,6 @@ $stmt1->bindParam(':id', $id, PDO::PARAM_INT);
 $stmt1->execute();
 $trimming = $stmt1->fetch(PDO::FETCH_ASSOC);
 
-$sql2 = <<<SQL
-SELECT
-  r.*,
-FROM
-  reviews r
-ORDER BY
-  id
-SQL;
-
-$stmt2 = $dbh->prepare($sql2);
-$stmt2->execute();
-
-$reviews = $stmt2->fetchAll(PDO::FETCH_ASSOC);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   $name = $_POST['name'];
@@ -56,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   if ($body == '') {
     $errors[] = '本文が未入力です';
   }
-
+  
   if (empty($errors)) {
     $sql = <<<SQL
     INSERT INTO
@@ -81,17 +66,38 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $stmt->bindParam(':trimming_id', $trimming_id, PDO::PARAM_INT);
     $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
     $stmt->execute();
-
+    
+    // 登録直後のID取得
     $id = $dbh->lastInsertId();
+    header("Location: show.php?id={$id}");
+    exit;
   }
 }
 
+$sql = <<<SQL
+SELECT
+  r.*,
+FROM
+  reviews r
+LEFT JOIN
+  trimmings t
+ON
+  r.trimmings_id = t.id
+WHERE
+  r.id = :id
+SQL;
+
+
+$stmt2 = $dbh->prepare($sql2);
+$stmt2->execute();
+
+$reviews = $stmt2->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
 <html lang="ja">
 
-<head>
+  <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
