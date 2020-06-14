@@ -69,8 +69,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     
     // 登録直後のID取得
     $id = $dbh->lastInsertId();
-    header("Location: show.php?id={$id}");
-    exit;
+    // header("Location: show.php?id={$id}");
+    // exit;
   }
 }
 
