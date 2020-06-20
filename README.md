@@ -121,3 +121,35 @@ INSERT INTO trimmings (title, dogbreed_id, picture, body, likes_count) VALUES
 '0'
 );
 
+INSERT INTO trimmings (title, dogbreed_id, picture, body, likes_count) VALUES
+('口元ふんわり',
+'6',
+'hqdefault-480x270.jpg',
+'シュナウザーらしい口元ふんわりカット、特徴的な眉も残すのがポイント',
+'0'
+);
+
+INSERT INTO trimmings (title, dogbreed_id, picture, body, likes_count) VALUES
+('顔まわりの意識して可愛く',
+'7',
+'Fotolia_203115450_Subscription_Monthly_M.jpg',
+'耳から顎までの毛をキレイにとかし、身体は歩きやすいように短めで上品に',
+'0'
+);
+
+INSERT INTO trimmings (title, dogbreed_id, picture, body, likes_count) VALUES
+('ライオン風',
+'7',
+'resized_0113ec52-1461-402f-abc7-fcf177a46472.jpg',
+'顔、胸回りの飾り毛、尻尾の毛は長めに残し胴体部分や足まわりをやや短めに',
+'0'
+);
+
+INSERT INTO trimmings (title, dogbreed_id, picture, body, likes_count) VALUES
+('バリカン使わないカット',
+'8',
+'2101a-98.jpg',
+'パピヨンはカットしなくても良い犬種なので整える程度に',
+'0'
+);
+
