@@ -36,7 +36,7 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   $name = $_POST['name'];
-  $body = $_POST['body'];
+  $body = $_POST['comment'];
   $trimming_id = $_POST['trimming_id'];
   $user_id = $_SESSION['id'];
   $errors = [];
@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   if ($name == '') {
     $errors[] = 'Nameが未入力です';
   }
-  if ($body == '') {
+  if ($comment == '') {
     $errors[] = '本文が未入力です';
   }
 
@@ -54,21 +54,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       reviews
     (
       name,
-      body,
+      comment,
       trimming_id,
       user_id
     )
     VALUES
     (
       :name,
-      :body,
+      :comment,
       :trimming_id,
       :user_id
     )
     SQL;
     $stmt = $dbh->prepare($sql);
     $stmt->bindParam(':name', $name, PDO::PARAM_STR);
-    $stmt->bindParam(':body', $body, PDO::PARAM_STR);
+    $stmt->bindParam(':comment', $comment, PDO::PARAM_STR);
     $stmt->bindParam(':trimming_id', $trimming_id, PDO::PARAM_INT);
     $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
     $stmt->execute();
@@ -78,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     //登録処理後へ飛ばす
     header("Location: show.php");
-    exit
+    exit;
   }
 }
 
