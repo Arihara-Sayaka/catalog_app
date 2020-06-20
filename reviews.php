@@ -29,8 +29,58 @@ SQL;
 $stmt = $dbh->prepare($sql);
 $stmt->bindParam(':id', $id, PDO::PARAM_INT);
 $stmt->execute();
+
 $reviews = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+  $name = $_POST['name'];
+  $body = $_POST['body'];
+  $trimming_id = $_POST['trimming_id'];
+  $user_id = $_SESSION['id'];
+  $errors = [];
+
+  if ($name == '') {
+    $errors[] = 'Nameが未入力です';
+  }
+  if ($body == '') {
+    $errors[] = '本文が未入力です';
+  }
+
+  if (empty($errors)) {
+    $sql = <<<SQL
+    INSERT INTO
+      reviews
+    (
+      name,
+      body,
+      trimming_id,
+      user_id
+    )
+    VALUES
+    (
+      :name,
+      :body,
+      :trimming_id,
+      :user_id
+    )
+    SQL;
+    $stmt = $dbh->prepare($sql);
+    $stmt->bindParam(':name', $name, PDO::PARAM_STR);
+    $stmt->bindParam(':body', $body, PDO::PARAM_STR);
+    $stmt->bindParam(':trimming_id', $trimming_id, PDO::PARAM_INT);
+    $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+    $stmt->execute();
+
+    // 登録直後のID取得
+    $id = $dbh->lastInsertId();
+
+    //登録処理後へ飛ばす
+    header("Location: show.php");
+    exit
+  }
+}
 
 
 ?>
@@ -92,8 +142,8 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
               </div>
 
               <div class="form-group">
-                <label for="body"> 口コミ </label>
-                <textarea name="body" id="" cols="30" rows="10" class="form-control" required></textarea>
+                <label for="comment"> 口コミ </label>
+                <textarea name="comment" id="" cols="30" rows="10" class="form-control" required></textarea>
               </div>
               <div class="form-group">
                 <input type="hidden" name="trimming_id" value="<?php echo $trimming_id; ?>">

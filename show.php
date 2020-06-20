@@ -28,52 +28,6 @@ $stmt1->execute();
 $trimming = $stmt1->fetch(PDO::FETCH_ASSOC);
 
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-  $name = $_POST['name'];
-  $body = $_POST['body'];
-  $trimming_id = $_POST['trimming_id'];
-  $user_id = $_SESSION['id'];
-  $errors = [];
-
-  if ($name == '') {
-    $errors[] = 'Nameが未入力です';
-  }
-  if ($body == '') {
-    $errors[] = '本文が未入力です';
-  }
-  
-  if (empty($errors)) {
-    $sql = <<<SQL
-    INSERT INTO
-      reviews
-    (
-      name,
-      body,
-      trimming_id,
-      user_id
-    )
-    VALUES
-    (
-      :name,
-      :body,
-      :trimming_id,
-      :user_id
-    )
-    SQL;
-    $stmt = $dbh->prepare($sql);
-    $stmt->bindParam(':name', $name, PDO::PARAM_STR);
-    $stmt->bindParam(':body', $body, PDO::PARAM_STR);
-    $stmt->bindParam(':trimming_id', $trimming_id, PDO::PARAM_INT);
-    $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
-    $stmt->execute();
-    
-    // 登録直後のID取得
-    $id = $dbh->lastInsertId();
-    // header("Location: show.php?id={$id}");
-    // exit;
-  }
-}
-
 $sql = <<<SQL
 SELECT
   r.*,
