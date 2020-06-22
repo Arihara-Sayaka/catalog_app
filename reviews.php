@@ -34,7 +34,19 @@ $stmt->execute();
 $reviews = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // users
-$users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+$sql = <<<SQL
+SELECT
+  u.*
+FROM
+  users u
+SQL;
+
+$stmt = $dbh->prepare($sql);
+$stmt->bindParam(':id', $id, PDO::PARAM_INT);
+$stmt->execute();
+
+$users = $stmt->fetch(PDO::FETCH_ASSOC);
 
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {

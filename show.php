@@ -54,7 +54,7 @@ $reviews = $stmt2->fetchAll(PDO::FETCH_ASSOC);
 <!DOCTYPE html>
 <html lang="ja">
 
-  <head>
+<head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -63,7 +63,7 @@ $reviews = $stmt2->fetchAll(PDO::FETCH_ASSOC);
 </head>
 
 <body>
-  
+
   <h1><?php echo h($trimming['title']); ?></h1>
   <p>
     <h2><?php echo h($trimming['name']); ?></h2>
@@ -73,7 +73,14 @@ $reviews = $stmt2->fetchAll(PDO::FETCH_ASSOC);
     <li>
       <img src="../dog_picture/<?php echo h($trimming['picture']); ?>" alt="犬の写真"><br>
       <?php echo h($trimming['body']); ?><br>
-      投稿日時 : <?php echo h($trimming['created_at']); ?><br>
+      投稿日時 : <?php echo h($trimming['created_at']); ?>
+
+      <?php if ($trimmings['likes_count'] == 0) : ?>
+        <a href="show.php?id=<?php echo h($trimming['id']); ?>" class="like-link"><?php echo '♡'; ?></a>
+      <?php else : ?>
+        <a href="show.php?id=<?php echo h($trimming['id']) . "&like_count=0"; ?>" class="bad-link"><?php echo '♥'; ?></a>
+      <?php endif; ?><br>
+
       <a href="index.php">戻る</a>
       <p><a href="reviews.php?trimmings_id=<?php echo h($trimming['id']); ?>">口コミ投稿</a></p>
       <hr>
