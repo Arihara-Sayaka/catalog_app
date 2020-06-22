@@ -20,10 +20,11 @@ ON
 SQL;
 
 if (($dogbreed_id) &&
-    is_numeric($dogbreed_id)) {
+  is_numeric($dogbreed_id)
+) {
   $sql_where = ' WHERE t.dogbreed_id = :dogbreed_id';
 } else {
-  $sql_where = "";  
+  $sql_where = "";
 }
 $sql_order = ' ORDER BY t.created_at DESC';
 
@@ -31,7 +32,8 @@ $sql = $sql . $sql_where . $sql_order;
 $stmt = $dbh->prepare($sql);
 
 if (($dogbreed_id) &&
-    is_numeric($dogbreed_id)) {
+  is_numeric($dogbreed_id)
+) {
   $stmt->bindParam(':dogbreed_id', $dogbreed_id, PDO::PARAM_INT);
 }
 
@@ -57,38 +59,47 @@ $dogbreed = $stmt->fetchAll(PDO::FETCH_ASSOC);
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="stylesheet" href="style.css">
+  <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
+  <link rel="icon" type="images/favicon.png" href="images/favicon.png">
   <title>記事投稿フォーム</title>
 </head>
 
 <body>
 
-  <h1>記事一覧ページ</h1>
+  <i class="fas fa-paw fa-5x">トリミングカタログ</i>
+  <h1></h1>
 
-  <?php if (count($trimmings)) : ?>
-    <ul class="trimmings-list">
-      <?php foreach ($trimmings as $trimming) : ?>
-        <li>
-          <a href="show.php?id=<?php echo h($trimming['id']) ?>">
-            <img src="../dog_picture/<?php echo h($trimming['picture']); ?>" alt="犬の写真"><br>
-          </a><br>
-        </li>
-      <?php endforeach; ?>
-    </ul>
-  <?php else : ?>
-    <p>投稿された記事はありません</p>
-  <?php endif; ?>
+  <div class="contents wrapper">
+    <article>
+      <?php if (count($trimmings)) : ?>
+        <ul class="trimmings-list">
+          <?php foreach ($trimmings as $trimming) : ?>
+            <li class="inu_pic">
+              <a href="show.php?id=<?php echo h($trimming['id']) ?>">
+                <img src="../dog_picture/<?php echo h($trimming['picture']); ?>" alt="犬の写真"><br>
+              </a><br>
+            </li>
+          <?php endforeach; ?>
+        </ul>
+      <?php else : ?>
+        <p>投稿された記事はありません</p>
+      <?php endif; ?>
+    </article>
 
-  <div>
-    <h2>カテゴリー</h2>
-    <ul>
-      <?php foreach ($dogbreed as $d) : ?>
-        <li class="dogbreed">
-          <a href="index.php?dogbreed_id=<?php echo h($d['id']); ?>"><?php echo h($d['name']); ?></a></span>
-        </li>
-      <?php endforeach; ?>
-    </ul>
+    <aside>
+      <div class="sub-title">
+        <h2>カテゴリー</h2>
+        <ul class="sub-menu">
+          <?php foreach ($dogbreed as $d) : ?>
+            <li class="dogbreed">
+              <a href="index.php?dogbreed_id=<?php echo h($d['id']); ?>"><?php echo h($d['name']); ?></a></span>
+            </li>
+          <?php endforeach; ?>
+        </ul>
+      </div>
+      <p><a href="index.php">一覧へ戻る</a></p>
+    </aside>
   </div>
-<p><a href="index.php">一覧へ戻る</a></p>
 </body>
 
 </html>

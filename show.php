@@ -3,8 +3,9 @@
 require_once('config.php');
 require_once('functions.php');
 
-$id = $_GET['id'];
+$id = $_REQUEST['id'];
 
+session_start();
 $dbh = connectDb();
 
 $sql1 = <<<SQL
@@ -26,27 +27,34 @@ $stmt1->bindParam(':id', $id, PDO::PARAM_INT);
 $stmt1->execute();
 $trimming = $stmt1->fetch(PDO::FETCH_ASSOC);
 
+
 $sql2 = <<<SQL
 SELECT
-  r.*,
+  t.*,
+  r.*
 FROM
+  trimmings t
+LEFT JOIN
   reviews r
-ORDER BY
-  updated_at
-DESC
+ON
+  r.trimmings_id = t.id
+WHERE
+  t.id = :id
 SQL;
 
+
 $stmt2 = $dbh->prepare($sql2);
-$reviews = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+$stmt2->bindParam(':id', $id, PDO::PARAM_INT);
 $stmt2->execute();
 
+$reviews = $stmt2->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
 
 <!DOCTYPE html>
 <html lang="ja">
 
-<head>
+  <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -55,6 +63,7 @@ $stmt2->execute();
 </head>
 
 <body>
+  
   <h1><?php echo h($trimming['title']); ?></h1>
   <p>
     <h2><?php echo h($trimming['name']); ?></h2>
@@ -66,13 +75,13 @@ $stmt2->execute();
       <?php echo h($trimming['body']); ?><br>
       投稿日時 : <?php echo h($trimming['created_at']); ?><br>
       <a href="index.php">戻る</a>
-      <p><a href="reviews.php?trimming_id=<?php echo h($trimming['id']); ?>">口コミ投稿</a></p>
+      <p><a href="reviews.php?trimmings_id=<?php echo h($trimming['id']); ?>">口コミ投稿</a></p>
       <hr>
     </li>
   </ul>
   <h3>口コミ</h3>
   <?php if (count($reviews)) : ?>
-    <ul>
+    <ul class="comment">
       <?php foreach ($reviews as $r) : ?>
         <li>
           <?php echo h($r['name']); ?><br>

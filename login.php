@@ -5,11 +5,10 @@ require_once('functions.php');
 
 session_start();
 
-// if (!empty($_SESSION['id'])) {
-//   header('Location: index.php');
-//   exit;
-// }
-
+if (!empty($_SESSION['id'])) {
+  header('Location: index.php');
+  exit;
+}
 
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -27,12 +26,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   // バリデーション突破後
   if (empty($errors)) {
     $dbh = connectDb();
+
     $sql = 'SELECT * FROM users WHERE email = :email';
     $stmt = $dbh->prepare($sql);
     $stmt->bindParam(':email', $email, PDO::PARAM_STR);
     $stmt->execute();
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    
     if (password_verify($password, $user['password'])) {
       $_SESSION['id'] = $user['id'];
       header('Location: reviews.php');
