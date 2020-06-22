@@ -28,24 +28,27 @@ $stmt1->execute();
 $trimming = $stmt1->fetch(PDO::FETCH_ASSOC);
 
 
-$sql = <<<SQL
+$sql2 = <<<SQL
 SELECT
-  r.*,
+  t.*,
+  r.*
 FROM
-  reviews r
-LEFT JOIN
   trimmings t
+LEFT JOIN
+  reviews r
 ON
   r.trimmings_id = t.id
 WHERE
-  r.id = :id
+  t.id = :id
 SQL;
 
 
 $stmt2 = $dbh->prepare($sql2);
+$stmt2->bindParam(':id', $id, PDO::PARAM_INT);
 $stmt2->execute();
 
 $reviews = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+
 ?>
 
 <!DOCTYPE html>
@@ -72,13 +75,13 @@ $reviews = $stmt2->fetchAll(PDO::FETCH_ASSOC);
       <?php echo h($trimming['body']); ?><br>
       投稿日時 : <?php echo h($trimming['created_at']); ?><br>
       <a href="index.php">戻る</a>
-      <p><a href="reviews.php?trimming_id=<?php echo h($trimming['id']); ?>">口コミ投稿</a></p>
+      <p><a href="reviews.php?trimmings_id=<?php echo h($trimming['id']); ?>">口コミ投稿</a></p>
       <hr>
     </li>
   </ul>
   <h3>口コミ</h3>
   <?php if (count($reviews)) : ?>
-    <ul>
+    <ul class="comment">
       <?php foreach ($reviews as $r) : ?>
         <li>
           <?php echo h($r['name']); ?><br>

@@ -88,3 +88,14 @@ list-style: none;
 .nav-item {
   list-style: none;
 }
+
+/* ここからreviews.php */
+
+
+.r-html {
+  background-color: honeydew;
+}
+
+.comment{
+  list-style: none;
+}

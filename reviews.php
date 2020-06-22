@@ -3,6 +3,7 @@
 require_once('config.php');
 require_once('functions.php');
 
+$trimmings_id = $_REQUEST['trimmings_id'];
 session_start();
 
 $id = $_SESSION['id'];
@@ -31,13 +32,15 @@ $stmt->bindParam(':id', $id, PDO::PARAM_INT);
 $stmt->execute();
 
 $reviews = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// users
 $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   $name = $_POST['name'];
-  $body = $_POST['comment'];
-  $trimming_id = $_POST['trimming_id'];
+  $comment = $_POST['comment'];
+  $trimmings_id = $_POST['trimmings_id'];
   $user_id = $_SESSION['id'];
   $errors = [];
 
@@ -55,21 +58,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     (
       name,
       comment,
-      trimming_id,
+      trimmings_id,
       user_id
     )
     VALUES
     (
       :name,
       :comment,
-      :trimming_id,
+      :trimmings_id,
       :user_id
     )
     SQL;
     $stmt = $dbh->prepare($sql);
     $stmt->bindParam(':name', $name, PDO::PARAM_STR);
     $stmt->bindParam(':comment', $comment, PDO::PARAM_STR);
-    $stmt->bindParam(':trimming_id', $trimming_id, PDO::PARAM_INT);
+    $stmt->bindParam(':trimmings_id', $trimmings_id, PDO::PARAM_INT);
     $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
     $stmt->execute();
 
@@ -77,7 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $id = $dbh->lastInsertId();
 
     //登録処理後へ飛ばす
-    header("Location: show.php");
+    header('Location: show.php?id=$trimmings_id');
     exit;
   }
 }
@@ -89,15 +92,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <head>
   <meta charset="UTF-8">
+  <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="style.css">
   <title>会員限定画面</title>
 </head>
 
-<body>
+<body class="r-html">
 
   <nav>
     <ul>
@@ -108,9 +111,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <?php if ($_SESSION['id']) : ?>
           <li class="nav-item">
             <a href="logout.php">LOG_OUT</a>
-          </li>
-          <li class="nav-item">
-            <a href="reviews.php">COMMENT</a>
           </li>
         <?php else : ?>
           <li class="nav-item">
@@ -135,7 +135,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           <div class="card-body">
             <h5 class="card-title text-center">新規記事</h5>
 
-            <form action="show.php?trimming_id=<?php echo h($trimming['id']); ?>" method="post">
+            <form action="reviews.php" method="post">
               <div class="form-group">
                 <label for="name"> Name </label>
                 <input type="name" class="form-control" required autofocus name="name">
@@ -146,7 +146,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <textarea name="comment" id="" cols="30" rows="10" class="form-control" required></textarea>
               </div>
               <div class="form-group">
-                <input type="hidden" name="trimming_id" value="<?php echo $trimming_id; ?>">
+                <input type="hidden" name="trimmings_id" value="<?php echo $trimmings_id; ?>">
                 <input type="submit" value="comment" class="btn btn-success btn-primary btn-block">
               </div>
             </form>
