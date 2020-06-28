@@ -92,7 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $id = $dbh->lastInsertId();
 
     //登録処理後へ飛ばす
-    header("Location: show.php?id=h($trimming['id']");
+    header("Location: show.php?id=$trimmings_id");
     exit;
   }
 }

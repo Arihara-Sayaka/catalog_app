@@ -120,7 +120,6 @@ $reviews = $stmt2->fetchAll(PDO::FETCH_ASSOC);
     <ul class="comment">
       <?php foreach ($reviews as $r) : ?>
         <li>
-
           <p>➢ Nickname：<?php echo nl2br(h($r['name'])); ?>さん</p>
           ✍ Comment <br>
           <?php echo nl2br(h($r['comment'])); ?>
