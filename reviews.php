@@ -34,7 +34,19 @@ $stmt->execute();
 $reviews = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // users
-$users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+$sql = <<<SQL
+SELECT
+  u.*
+FROM
+  users u
+SQL;
+
+$stmt = $dbh->prepare($sql);
+$stmt->bindParam(':id', $id, PDO::PARAM_INT);
+$stmt->execute();
+
+$users = $stmt->fetch(PDO::FETCH_ASSOC);
 
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -80,7 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $id = $dbh->lastInsertId();
 
     //登録処理後へ飛ばす
-    header('Location: show.php?id=$trimmings_id');
+    header("Location: show.php?id=$trimmings_id");
     exit;
   }
 }
@@ -124,9 +136,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </div>
   </nav>
 
-  <h1>会員様限定口コミ投稿用ページです</h1>
-
-  <h2>Welcome <?php echo h($user['name']); ?> !!</h2>
+  <h1 class="r-title">Members Only <br>Welcome <?php echo h($user['name']); ?> !!</h1>
 
   <div class="container">
     <div class="row">
@@ -156,7 +166,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </div>
   </div>
 
-  <p><a href="logout.php">ログアウト</a></p>
 </body>
 
 </html>

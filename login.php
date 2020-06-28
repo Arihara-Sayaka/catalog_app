@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $stmt->execute();
 
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
-    
+
     if (password_verify($password, $user['password'])) {
       $_SESSION['id'] = $user['id'];
       header('Location: reviews.php');
@@ -57,8 +57,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   <title>ログイン画面</title>
 </head>
 
-<body>
-  <h1>LOGIN</h1>
+<body class="login-main">
+  <header class="login-header">
+    <a href="signup.php">初めましてはコチラ</a>
+  </header>
+
+  <h1 class="in">LOGIN</h1>
 
   <?php if ($errors) : ?>
     <ul class="error-list">
@@ -80,7 +84,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <br>
     <input type="submit" value="login">
   </form>
-  <a href="signup.php">SignUp</a>
+
+  <footer class="login-footer">
+    
+  </footer>
 </body>
 
 </html>

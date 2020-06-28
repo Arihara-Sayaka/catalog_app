@@ -65,9 +65,13 @@ $dogbreed = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </head>
 
 <body>
-
-  <i class="fas fa-paw fa-5x">トリミングカタログ</i>
-  <h1></h1>
+  <header>
+    <nav>
+      <ul>
+        <li><i class="fas fa-dog fa-5x">トリミングカタログ</i></li>
+      </ul>
+    </nav>
+  </header>
 
   <div class="contents wrapper">
     <article>
