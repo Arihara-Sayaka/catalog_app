@@ -8,7 +8,7 @@ $id = $_REQUEST['id'];
 session_start();
 $dbh = connectDb();
 
-if ($_SESSION['id']){
+if ($_SESSION['id']) {
   $sql1 = <<<SQL
   SELECT
     t.*,
@@ -32,7 +32,6 @@ if ($_SESSION['id']){
   $stmt1 = $dbh->prepare($sql1);
   $stmt1->bindParam(':id', $id, PDO::PARAM_INT);
   $stmt1->bindParam(':user_id', $_SESSION['id'], PDO::PARAM_INT);
-
 } else {
   $sql1 = <<<SQL
   SELECT
@@ -89,14 +88,14 @@ $reviews = $stmt2->fetchAll(PDO::FETCH_ASSOC);
   <title>catalog</title>
 </head>
 
-<body>
+<body class="show-main">
 
   <h1><?php echo h($trimming['title']); ?></h1>
   <p>
     <h2><?php echo h($trimming['name']); ?></h2>
   </p>
 
-  <ul class="trimmings-list">
+  <ul>
     <li>
       <img src="../dog_picture/<?php echo h($trimming['picture']); ?>" alt="犬の写真"><br>
       <?php echo h($trimming['body']); ?><br>
@@ -111,19 +110,23 @@ $reviews = $stmt2->fetchAll(PDO::FETCH_ASSOC);
         <?php endif; ?><br>
       <?php endif; ?>
 
-      <a href="index.php">戻る</a>
-      <p><a href="reviews.php?trimmings_id=<?php echo h($trimming['id']); ?>">口コミ投稿</a></p>
+      <a href="index.php">戻る</a> or
+      <a href="reviews.php?trimmings_id=<?php echo h($trimming['id']); ?>">コメント</a>
       <hr>
     </li>
   </ul>
-  <h3>口コミ</h3>
+  <h3>COMMENT</h3>
   <?php if (count($reviews)) : ?>
     <ul class="comment">
       <?php foreach ($reviews as $r) : ?>
         <li>
-          <?php echo h($r['name']); ?><br>
-          <?php echo h($r['comment']); ?><br>
-          投稿日時: <?php echo h($r['created_at']); ?>
+
+          <p>➢ Nickname：<?php echo nl2br(h($r['name'])); ?>さん</p>
+          ✍ Comment <br>
+          <?php echo nl2br(h($r['comment'])); ?>
+          <p>
+            投稿日時: <?php echo h($r['created_at']); ?>
+          </p><br>
           <hr>
         </li>
       <?php endforeach; ?>

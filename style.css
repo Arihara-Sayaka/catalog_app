@@ -8,6 +8,7 @@ html {
 
 header li {
   list-style: none;
+  text-align: center;
 }
 
 i {
@@ -15,8 +16,10 @@ i {
 }
 
 .fas {
-  margin-top: 40px;
-  color: teal;
+  margin-top: 60px;
+  padding: 60px;
+  color: rgb(98, 133, 98);
+  
 }
 
 article {
@@ -36,9 +39,9 @@ aside {
 .sub-title {
   font-size: 1.375rem;
   padding: 0 8px 8px;
-  border-bottom: 2px teal solid;
+  border-bottom: 2px rgb(98, 133, 98) solid;
   font-weight: normal;
-}
+} 
 
 .sub-menu {
   margin-bottom: 60px;
@@ -56,11 +59,11 @@ aside {
 }
 
 a {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 .sub-menu a:hover{
-  color: teal;
+  color: rgb(98, 133, 98);
 }
 
 img {
@@ -78,7 +81,7 @@ li.inu_pic {
 }
 
 .sub-title {
-  color: teal;
+  color: rgb(98, 133, 98);
 }
 
 .trimmings-list {
@@ -103,9 +106,36 @@ list-style: none;
   background-color: honeydew;
 }
 
+.r-title {
+  text-align: center;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-size: 3rem;
+}
+
+/* show.php */
+
+.show-main {
+  text-align: center;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.show-main li {
+  list-style: none;
+}
+
+h1 {
+  font-size: 3rem;
+}
+
+h3 {
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-size: 3rem;
+}
+
 .comment{
   list-style: none;
 }
+
 
 /* signin-page */
 
@@ -175,4 +205,29 @@ text-align:center;
 border:2px solid;
 border-color:#aaaaaa #444444 #444444 #aaaaaa;
 background-color: #fff;
+}
+
+
+/* login.php */
+
+.login-header {
+  padding: 30px;
+  background-color: rgb(211, 243, 211);
+  text-align: right;
+}
+
+.login-main {
+  text-align: center;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+.in {
+  padding-top: 40px;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-size: 7rem;
+}
+
+.login-footer {
+  margin-top: 150px;
+  padding: 80px;
+  background-color: rgb(211, 243, 211);
 }
