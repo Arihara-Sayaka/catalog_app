@@ -8,38 +8,27 @@ require_once('functions.php');
 $dbh = connectDb();
 
 $id = $_GET['id'];
+$trimmings_id = $_GET['trimmings_id'];
+$user_id = $_GET['user_id'];
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
-  $like = $_GET['like_count'];
-  $trimmings_id = $_POST['trimmings_id'];
-  $user_id = $_SESSION['id'];
-
-  if ($like == "1") {
-    $sql = "insert into likescount (user_id, trimmings_id) values (:user_id, :trimmings_id)"; 
-  } else {
+  if ($id) {
     $sql = "DELETE FROM likescount WHERE id = :id";
+    $stmt = $dbh->prepare($sql);
+    $stmt->bindParam(":id", $id);
+  } else {
+    $sql = "insert into likescount (user_id, trimmings_id) values (:user_id, :trimmings_id)";
+    $stmt = $dbh->prepare($sql);
+    $stmt->bindParam(":user_id", $user_id, PDO::PARAM_INT);
+    $stmt->bindParam(":trimmings_id", $trimmings_id, PDO::PARAM_INT);
   }
 
   //sql文で該当のデータを更新する
 
-$sql = <<<SQL
-update
-  likescount
-set
-  user_id = :user_id,
-  trimmings_id = :trimmings_id
-WHERE
-  id = :id
-SQL;
-
-$stmt = $dbh->prepare($sql);
-$stmt->bindParam(':trimmings_id', $trimmings_id, PDO::PARAM_INT);
-$stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
-$stmt->bindParam(":id", $id);
 $stmt->execute();
 
-  header("Location: show.php?id=${id}");
+  header("Location: show.php?id=${trimmings_id}");
   exit;
 
   }

@@ -23,9 +23,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 if (empty($eroors)) {
   $dbh = connectDb();
 
-  $sql = 'insert into users' . 
-          '(email, name, password) values' . 
-          '(:email, :name, :password)';
+  $sql = 'insert into users' .
+    '(email, name, password) values' .
+    '(:email, :name, :password)';
   $stmt = $dbh->prepare($sql);
 
   $stmt->bindParam(':email', $email, PDO::PARAM_STR);
@@ -54,33 +54,41 @@ if (empty($eroors)) {
   <title>新規登録画面</title>
 </head>
 
-<body>
-  <h1>SignUP</h1>
+<body class="s-html">
 
-  <?php if ($errors) : ?>
-    <ul class="error-list">
-      <?php foreach ($errors as $error) : ?>
-        <li><?php echo $error; ?></li>
-      <?php endforeach; ?>
-    </ul>
-  <?php endif; ?>
+  <div>
+    <div id="sign" class="big-bg">
+      <h1 class="page-title">SignUP</h1>
+      <div class="s-form">
+        <?php if ($errors) : ?>
+          <ul class="error-list">
+            <?php foreach ($errors as $error) : ?>
+              <li><?php echo $error; ?></li>
+            <?php endforeach; ?>
+          </ul>
+        <?php endif; ?>
 
-  <form action="" method="post">
-    <label for="email"> email :
-      <input type="email" name="email" value="<?php echo h($email); ?>">
-    </label>
-    <br>
-    <label for="name"> name :
-      <input type="text" name="name" value="<?php echo h($name); ?>">
-    </label>
-    <br>
-    <label for="password"> pass :
-      <input type="text" name="password">
-    </label>
-    <br>
-    <input type="submit" value=" Sing Up ">
-  </form>
-  <a href="login.php">login</a>
+        <form action="" method="post">
+          <label for="email"> email :
+            <input type="email" name="email" value="<?php echo h($email); ?>">
+          </label>
+          <br>
+          <label for="name"> name :
+            <input type="text" name="name" value="<?php echo h($name); ?>">
+          </label>
+          <br>
+          <label for="password"> pass :
+            <input type="text" name="password">
+          </label>
+          <br>
+          <input type="submit" value=" Sing Up ">
+          <br>
+          <a href="login.php" class="lg">LOGIN</a>
+        </form>
+      </div>
+    </div>
+  </div>
+
 </body>
 
 </html>

@@ -65,10 +65,15 @@ $dogbreed = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </head>
 
 <body>
+  <header>
+    <nav>
+      <ul>
+        <li><a href="signup.php">SIGN UP</a></li>
+      </ul>
+    </nav>
+  </header>
 
-  <i class="fas fa-paw fa-5x">トリミングカタログ</i>
-  <h1></h1>
-
+  <i class="fas fa-dog fa-5x">トリミングカタログ</i>
   <div class="contents wrapper">
     <article>
       <?php if (count($trimmings)) : ?>

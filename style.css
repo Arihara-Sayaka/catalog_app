@@ -6,8 +6,15 @@ html {
   background-color: honeydew;
 }
 
-.fas {
+header li {
+  list-style: none;
+}
+
+i {
   text-align: center;
+}
+
+.fas {
   margin-top: 40px;
   color: teal;
 }
@@ -98,4 +105,74 @@ list-style: none;
 
 .comment{
   list-style: none;
+}
+
+/* signin-page */
+
+.s-html {
+  background-color: honeydew;
+}
+
+#sign {
+  background-image: url(images/Dogs_Border_Collie_Bench_Glance_Cute_Beautiful_519228_1280x793.jpg);
+  min-height: 100vh;
+}
+
+
+  .flex-col-area {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  .footer {
+    margin-top: auto;
+    width: 100%;
+    height: 60px;
+  }
+
+.big-bg {
+  background-position: center top;
+  background-repeat: no-repeat;
+}
+
+.page-title {
+  text-align: center;
+  font-size: 7rem;
+  padding: 90px 300px 20px 300px;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  text-transform: uppercase;
+  font-weight: normal;
+}
+
+.s-form {
+  padding: 0 300px;
+}
+
+
+label {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  display: block;
+}
+
+input[type="email"],
+input[type="text"],
+textarea {
+  background: rgba(255, 255, 255, .5);
+  border: 1px #fff solid;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.lg{
+font-size:0.75em;
+display:block;
+width:100px;
+padding-top:5px;
+padding-bottom:5px;
+text-align:center;
+border:2px solid;
+border-color:#aaaaaa #444444 #444444 #aaaaaa;
+background-color: #fff;
 }
