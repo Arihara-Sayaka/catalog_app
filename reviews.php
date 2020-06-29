@@ -6,10 +6,10 @@ require_once('functions.php');
 $trimmings_id = $_REQUEST['trimmings_id'];
 session_start();
 
-$id = $_SESSION['id'];
-if (!is_numeric($id)) {
-  exit;
-}
+// $id = $_SESSION['id'];
+// if (!is_numeric($id)) {
+//   exit;
+// }
 
 $dbh = connectDb();
 
@@ -114,36 +114,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <body class="r-html">
 
-  <nav>
-    <ul>
-      <a href="http://localhost/index.php">HOME</a>
-    </ul>
-    <div>
-      <ul>
-        <?php if ($_SESSION['id']) : ?>
-          <li class="nav-item">
-            <a href="logout.php">LOG_OUT</a>
-          </li>
-        <?php else : ?>
-          <li class="nav-item">
-            <a href="login.php">LOG_IN</a>
-          </li>
-          <li class="nav-item">
-            <a href="signup.php">SIGN_UP</a>
-          </li>
-        <?php endif; ?>
-      </ul>
-    </div>
-  </nav>
-
-  <h1 class="r-title">Members Only <br>Welcome <?php echo h($user['name']); ?> !!</h1>
+  <h1 class="r-title">Members Only <br>Welcome!!</h1>
 
   <div class="container">
     <div class="row">
       <div class="col-sm-11 col-md-9 col-lg-7 mx-auto">
         <div class="card my-5 bg-light">
           <div class="card-body">
-            <h5 class="card-title text-center">新規記事</h5>
+            <h5 class="card-title text-center">COMMENT</h5>
+
+            <?php if ($errors) : ?>
+              <ul class="alert alert-danger">
+                <?php foreach ($errors as $error) : ?>
+                  <li><?= $error ?></li>
+                <?php endforeach; ?>
+              </ul>
+            <?php endif; ?>
 
             <form action="reviews.php" method="post">
               <div class="form-group">
@@ -165,6 +151,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       </div>
     </div>
   </div>
+
+
+  <nav>
+    <ul nav-item>
+      <a href="index.php" class="btn-flat-border">HOME</a>
+    </ul>
+    <div>
+      <ul>
+        <?php if ($_SESSION['id']) : ?>
+          <li class="nav-item">
+            <a href="logout.php" class="btn-flat-border">LOG_OUT</a>
+          </li>
+        <?php else : ?>
+          <li class="nav-item">
+            <a href="login.php" class="btn-flat-border">LOG_IN</a>
+          </li>
+          <li class="nav-item">
+            <a href="signup.php" class="btn-flat-border">SIGN_UP</a>
+          </li>
+        <?php endif; ?>
+      </ul>
+    </div>
+  </nav>
 
 </body>
 

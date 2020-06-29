@@ -3,6 +3,8 @@
 require_once('config.php');
 require_once('functions.php');
 
+session_start();
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   $email = $_POST['email'];
   $name = $_POST['name'];
@@ -18,28 +20,48 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   if ($password == '') {
     $errors[] = 'パスワードが未入力です';
   }
-}
-
-if (empty($eroors)) {
   $dbh = connectDb();
-
-  $sql = 'insert into users' .
-    '(email, name, password) values' .
-    '(:email, :name, :password)';
+  $sql = 'SELECT * FROM users WHERE email = :email';
   $stmt = $dbh->prepare($sql);
-
   $stmt->bindParam(':email', $email, PDO::PARAM_STR);
-  $stmt->bindParam(':name', $name, PDO::PARAM_STR);
-
-  $pw_hash = password_hash($password, PASSWORD_DEFAULT);
-  $stmt->bindParam(':password', $pw_hash);
-
   $stmt->execute();
+  $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-  // header('Location: login.php');
-  // exit;
+  // if ($user) {
+  //   $errors[] = '既にメールアドレスが登録されています';
+  // }
+
+  if (empty($errors)) {
+    $sql = <<<SQL
+    INSERT INTO
+      users
+    (
+      email,
+      name,
+      password
+    )
+    VALUES
+    (
+      :email,
+      :name,
+      :password
+    )
+    SQL;
+    $stmt = $dbh->prepare($sql);
+
+    $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+    $stmt->bindParam(':name', $name, PDO::PARAM_STR);
+    $pw_hash = password_hash($password, PASSWORD_DEFAULT);
+    $stmt->bindParam(':password', $pw_hash);
+
+    $stmt->execute();
+
+    $id = $dbh->lastInsertId();
+    $_SESSION['id'] = $id;
+    header('Location: index.php');
+    exit;
+  }
 }
-
 
 ?>
 
@@ -81,9 +103,11 @@ if (empty($eroors)) {
             <input type="text" name="password">
           </label>
           <br>
-          <input type="submit" value=" Sing Up ">
+          <div class="wrap">
+            <input type="submit" value=" Sing Up " class="sign-button">
+          </div>
           <br>
-          <a href="login.php" class="lg">LOGIN</a>
+          <a href="index.php" class="sign-button">HOME</a>
         </form>
       </div>
     </div>
