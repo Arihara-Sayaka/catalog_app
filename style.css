@@ -6,6 +6,25 @@ html {
   background-color: honeydew;
 }
 
+body {
+  margin: 0;
+}
+
+.w-bt {
+  display: flex;
+  list-style: none;
+}
+
+.w-bt li {
+  padding: 5px;
+}
+
+.index-header {
+  padding: 5px;
+  background-color: rgb(211, 243, 211);
+  text-align: right;
+}
+
 header li {
   list-style: none;
   text-align: center;
@@ -16,18 +35,19 @@ i {
 }
 
 .fas {
-  margin-top: 60px;
-  padding: 60px;
+  margin-top: 10px;
+  padding: 10px;
   color: rgb(98, 133, 98);
-  
 }
 
 article {
   width: 80%;
+  margin-top: 20px;
 }
 
 aside {
   width: 25%;
+  margin-top: 20px;
 }
 
 .contents {
@@ -99,6 +119,29 @@ list-style: none;
   list-style: none;
 }
 
+.button03{
+  display:block;
+  width: 100px;
+  height:70px;
+  line-height: 60px;
+  color: #FFF;
+  text-decoration: none;
+  text-align: center;
+  background-color: #3f9c66; /*ボタン色*/
+  border-bottom: solid 6px #3f9c66; /*下線色*/
+  border-radius: 5px; /*角丸*/
+}
+.button03:hover{
+  background-color: #95cead;/*ボタン色*/
+  border-bottom: solid 6px #95cead; /*下線色*/
+}
+.button03:active {
+  margin-top: 6px;
+  border-bottom: none;
+  -webkit-transform: translateY(6px); /*下移動*/
+  transform: translateY(6px);
+}
+
 /* ここからreviews.php */
 
 
@@ -110,6 +153,7 @@ list-style: none;
   text-align: center;
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   font-size: 3rem;
+  padding-top: 40px;
 }
 
 /* show.php */
@@ -136,15 +180,24 @@ h3 {
   list-style: none;
 }
 
-
+img.show {
+zoom: 1.7;
+}
 /* signin-page */
 
 .s-html {
   background-color: honeydew;
+      background-image: url(http://p1.pichost.me/i/11/1344899.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+    font-size: 14px;
 }
 
 #sign {
-  background-image: url(images/Dogs_Border_Collie_Bench_Glance_Cute_Beautiful_519228_1280x793.jpg);
+  background: url(images/Dogs_Border_Collie_Bench_Glance_Cute_Beautiful_519228_1280x793.jpg) center center fixed;
+  background-size: cover;
   min-height: 100vh;
 }
 
@@ -173,10 +226,11 @@ h3 {
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   text-transform: uppercase;
   font-weight: normal;
+  margin: 0;
 }
 
 .s-form {
-  padding: 0 300px;
+  padding: 60px 200px;
 }
 
 
@@ -195,20 +249,44 @@ textarea {
   font-size: 1rem;
 }
 
-.lg{
-font-size:0.75em;
-display:block;
-width:100px;
-padding-top:5px;
-padding-bottom:5px;
-text-align:center;
-border:2px solid;
-border-color:#aaaaaa #444444 #444444 #aaaaaa;
-background-color: #fff;
+
+/* .wrap {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -86px;
+    margin-left: -89px;
+} */
+
+.sign-button {
+    -webkit-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+    -moz-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+    -ms-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+    -o-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+    transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+    display: block;
+    display: inline-block;
+    text-decoration: none;
+    border-radius: 4px;
+    padding: 20px 100px;
+}
+
+.sign-button {
+    color: rgba(30, 22, 54, 0.6);
+    box-shadow: rgba(30, 22, 54, 0.4) 0 0px 0px 2px inset;
+}
+
+.sign-button:hover {
+    color: rgba(255, 255, 255, 0.85);
+    box-shadow: rgba(30, 22, 54, 0.7) 0 0px 0px 40px inset;
 }
 
 
 /* login.php */
+
+body {
+  margin: 0;
+}
 
 .login-header {
   padding: 30px;
@@ -230,4 +308,20 @@ background-color: #fff;
   margin-top: 150px;
   padding: 80px;
   background-color: rgb(211, 243, 211);
+  font-size: 1.25rem;
+}
+
+.in-bt {
+  padding: 0.75em 2em;
+  text-align: center;
+  text-decoration: none;
+  color: color;
+  border: 2px solid color;
+  font-size: 24px;
+  display: inline-block;
+  border-radius: 0.3em;
+  transition: all 0.2s ease-in-out;
+  position: relative;
+  overflow: hidden;
+
 }

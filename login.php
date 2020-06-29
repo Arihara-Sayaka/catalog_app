@@ -4,12 +4,12 @@ require_once('config.php');
 require_once('functions.php');
 
 session_start();
+$dbh = connectDb();
 
 if (!empty($_SESSION['id'])) {
   header('Location: index.php');
   exit;
 }
-
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   $email = $_POST['email'];
@@ -36,7 +36,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if (password_verify($password, $user['password'])) {
       $_SESSION['id'] = $user['id'];
-      header('Location: reviews.php');
+      $url = $_SERVER['HTTP_REFERER'];
+      header('Location: index.php');
       exit;
     } else {
       $errors[] = 'メールアドレスかパスワードが間違っています';
@@ -82,11 +83,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       <input type="password" name="password">
     </label>
     <br>
-    <input type="submit" value="login">
+    <input type="submit" value="login" class="in-bt">
   </form>
 
   <footer class="login-footer">
-    
+    &copy; 2020 Catalog_app
   </footer>
 </body>
 

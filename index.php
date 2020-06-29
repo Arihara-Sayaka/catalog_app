@@ -65,10 +65,10 @@ $dogbreed = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </head>
 
 <body>
-  <header>
+  <header class="index-header">
     <nav>
       <ul>
-        <li><i class="fas fa-dog fa-5x">トリミングカタログ</i></li>
+        <li><i class="fas fa-dog fa-4x">トリミングカタログ</i></li>
       </ul>
     </nav>
   </header>
@@ -100,8 +100,12 @@ $dogbreed = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </li>
           <?php endforeach; ?>
         </ul>
-      </div>
-      <p><a href="index.php">一覧へ戻る</a></p>
+      </div class="wrapper">
+      <ul class="w-bt">
+        <li><a class="button03" href="index.php">TOP</a></li>
+        <li><a class="button03" href="login.php">LOGIN</a></li>
+        <li><a class="button03" href="logout.php">LOGOUT</a></li>
+      </ul>
     </aside>
   </div>
 </body>

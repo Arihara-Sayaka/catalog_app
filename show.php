@@ -91,14 +91,16 @@ $reviews = $stmt2->fetchAll(PDO::FETCH_ASSOC);
 <body class="show-main">
 
   <h1><?php echo h($trimming['title']); ?></h1>
-  <p>
-    <h2><?php echo h($trimming['name']); ?></h2>
-  </p>
 
   <ul>
     <li>
-      <img src="../dog_picture/<?php echo h($trimming['picture']); ?>" alt="犬の写真"><br>
-      <?php echo h($trimming['body']); ?><br>
+      <img src="../dog_picture/<?php echo h($trimming['picture']); ?>" alt="犬の写真" class="show"><br>
+      <p>
+        <h2><?php echo h($trimming['name']); ?></h2>
+      </p>
+      <p>
+        <?php echo h($trimming['body']); ?>
+      </p>
       投稿日時 : <?php echo h($trimming['created_at']); ?>
 
 
@@ -110,8 +112,11 @@ $reviews = $stmt2->fetchAll(PDO::FETCH_ASSOC);
         <?php endif; ?><br>
       <?php endif; ?>
 
-      <a href="index.php">戻る</a> or
-      <a href="reviews.php?trimmings_id=<?php echo h($trimming['id']); ?>">コメント</a>
+      <a href="index.php">戻る</a>
+      <?php if ($_SESSION['id']) : ?>or
+        <a href="reviews.php?trimmings_id=<?php echo h($trimming['id']); ?>">コメント</a>
+      <?php endif; ?>
+      <hr>
       <hr>
     </li>
   </ul>
@@ -126,7 +131,7 @@ $reviews = $stmt2->fetchAll(PDO::FETCH_ASSOC);
           <p>
             投稿日時: <?php echo h($r['created_at']); ?>
           </p><br>
-          <hr>
+
         </li>
       <?php endforeach; ?>
     </ul>
